@@ -11,10 +11,12 @@ bot = Bot(token=api)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
 kb = ReplyKeyboardMarkup(resize_keyboard=True)
-button_calc = KeyboardButton(text='Рассчитать')
-button_info = KeyboardButton(text='Информация')
-kb.add(button_calc)
-kb.add(button_info)
+# button_calc = KeyboardButton(text='Рассчитать')
+# button_info = KeyboardButton(text='Информация')
+# kb.add(button_calc)
+# kb.add(button_info)
+buttons = ['Информация', 'Рассчитать']
+kb.add(*buttons)
 
 class UserState(StatesGroup):
     age = State()
@@ -56,6 +58,10 @@ async def send_calories(message, state):
     await message.answer(f"Ваша норма калорий: "
                          f"{10 * float(data['weight']) + 6.25 * float(data['growth']) - 5 * float(data['age']) + 5}")
     await state.finish()
+
+@dp.message_handler()
+async def all_massages(message):
+    await message.answer('Введите команду /start, чтобы начать общение')
 
 
 if __name__ == '__main__':
